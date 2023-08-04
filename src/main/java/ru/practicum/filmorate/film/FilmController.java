@@ -42,8 +42,11 @@ public class FilmController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Film>> getFilms() {
-        return new ResponseEntity<List<Film>>(films, HttpStatus.OK);
+    public ResponseEntity<String> getFilms() {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+                .create();
+        return new ResponseEntity<String>(gson.toJson(films), HttpStatus.OK);
     }
 
     @PutMapping

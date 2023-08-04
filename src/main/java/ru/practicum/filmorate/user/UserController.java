@@ -41,8 +41,11 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getUsers() {
-        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+    public ResponseEntity<String> getUsers() {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+                .create();
+        return new ResponseEntity<String>(gson.toJson(users), HttpStatus.OK);
     }
 
     @PutMapping
