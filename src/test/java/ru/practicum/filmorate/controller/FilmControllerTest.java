@@ -1,9 +1,12 @@
 package ru.practicum.filmorate.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import ru.practicum.filmorate.LocalDateTypeAdapter;
 import ru.practicum.filmorate.film.Film;
 import ru.practicum.filmorate.film.FilmController;
 
@@ -16,10 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 public class FilmControllerTest {
     FilmController filmController;
-
+    Gson gson;
     @BeforeEach
     void setUp() {
         filmController = new FilmController();
+        gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+                .create();
     }
 
     @Test
@@ -55,7 +61,7 @@ public class FilmControllerTest {
                 .releaseDate(LocalDate.of(2023, 07, 20))
                 .duration(Duration.ofMinutes(120)).build();
         filmController.postFilm(film);
-        assertEquals(film, filmController.getFilms().getBody().get(0));
+        assertEquals(gson.toJson(film), filmController.getFilms().getBody());
     }
 
     @Test
