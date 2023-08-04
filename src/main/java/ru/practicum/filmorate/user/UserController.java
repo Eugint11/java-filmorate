@@ -1,15 +1,19 @@
 package ru.practicum.filmorate.user;
 
+import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.filmorate.LocalDateTypeAdapter;
 import ru.practicum.filmorate.exception.ValidationException;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gson.Gson;
 
 /**
  * TODO Sprint add-controllers.
@@ -23,11 +27,14 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<String> postUser(@Valid @RequestBody User user) {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+                .create();
         try {
             validate(user);
             User newUser = user.toBuilder().id(getLastId()).build();
             users.add(newUser);
-            return new ResponseEntity<String>(newUser.toString(), HttpStatus.OK);
+            return new ResponseEntity<String>(gson.toJson(newUser), HttpStatus.OK);
         } catch (ValidationException e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -40,17 +47,18 @@ public class UserController {
 
     @PutMapping
     public ResponseEntity<String> putUser(@Valid @RequestBody User user) {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+                .create();
         try {
             validate(user);
             for (User oldUser : users) {
                 if (oldUser.getId() == user.getId()) {
                     users.add(users.indexOf(oldUser), user);
-                    return new ResponseEntity<String>(user.toString(), HttpStatus.OK);
+                    return new ResponseEntity<String>(gson.toJson(user), HttpStatus.OK);
                 }
             }
-            User newUser = user.toBuilder().id(getLastId()).build();
-            users.add(newUser);
-            return new ResponseEntity<String>(newUser.toString(), HttpStatus.OK);
+            return postUser(user);
         } catch (ValidationException e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
