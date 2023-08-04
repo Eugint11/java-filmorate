@@ -40,7 +40,7 @@ public class FilmController {
         return new ResponseEntity<List<Film>>(films, HttpStatus.OK);
     }
 
-    @PutMapping(path = "/films/")
+    @PutMapping
     public ResponseEntity<String> putFilm(@Valid @RequestBody Film film) {
         try {
             validate(film);

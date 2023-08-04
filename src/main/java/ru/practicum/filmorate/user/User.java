@@ -16,7 +16,7 @@ public class User {
     int id;
     @NotNull @NotBlank @Email
     String email;
-    @NotNull @NotBlank @Pattern(regexp = "/^\\S\\z/")
+    @NotNull @NotBlank @Pattern(regexp = "\\S+")
     String login;
     String name;
     @PastOrPresent

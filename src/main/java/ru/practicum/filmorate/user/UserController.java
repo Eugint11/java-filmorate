@@ -1,5 +1,6 @@
 package ru.practicum.filmorate.user;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.List;
 /**
  * TODO Sprint add-controllers.
  */
+@Slf4j
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
@@ -36,7 +38,7 @@ public class UserController {
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
 
-    @PutMapping(path = "/users/")
+    @PutMapping
     public ResponseEntity<String> putUser(@Valid @RequestBody User user) {
         try {
             validate(user);
