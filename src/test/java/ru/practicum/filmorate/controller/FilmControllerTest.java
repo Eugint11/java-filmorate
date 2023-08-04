@@ -62,7 +62,7 @@ public class FilmControllerTest {
                 .releaseDate(LocalDate.of(2023, 07, 20))
                 .duration(Duration.ofMinutes(120)).build();
         filmController.postFilm(film);
-        assertEquals(gson.toJson(film), filmController.getFilms().getBody());
+        assertEquals(film, filmController.getFilms().getBody());
     }
 
     @Test

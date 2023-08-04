@@ -30,14 +30,14 @@ public class UserControllerTest {
     void postUserCorrect() {
         User user = User.builder().id(1).login("login").name("name").email("test@gmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
         userController.postUser(user);
-        assertEquals(gson.toJson(user), userController.getUsers().getBody());
+        assertEquals(user, userController.getUsers().getBody());
     }
 
     @Test
     void postUserWithEmptyNAME() {
         User user = User.builder().id(1).login("login").name("").email("test@gmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
         userController.postUser(user);
-        assertEquals(gson.toJson(user), userController.getUsers().getBody());
+        assertEquals(user, userController.getUsers().getBody());
     }
 
     @Test
@@ -51,21 +51,21 @@ public class UserControllerTest {
     void getUsers() {
         User user = User.builder().id(1).login("login").name("").email("test@gmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
         userController.postUser(user);
-        assertEquals(gson.toJson(user), userController.getUsers().getBody());
+        assertEquals(user, userController.getUsers().getBody());
     }
 
     @Test
     void putUserCorrect() {
         User user = User.builder().id(1).login("login").name("name").email("test@gmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
         userController.putUser(user);
-        assertEquals(gson.toJson(user), userController.getUsers().getBody());
+        assertEquals(user, userController.getUsers().getBody());
     }
 
     @Test
     void putUserWithEmptyNAME() {
         User user = User.builder().id(1).login("login").name("").email("test@gmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
         userController.putUser(user);
-        assertEquals(gson.toJson(user), userController.getUsers().getBody());
+        assertEquals(user, userController.getUsers().getBody());
     }
 
     @Test
@@ -81,6 +81,6 @@ public class UserControllerTest {
         userController.postUser(user);
         User updateUser = user.toBuilder().name("NewName").build();
         userController.putUser(updateUser);
-        assertEquals(gson.toJson(user), userController.getUsers().getBody());
+        assertEquals(user, userController.getUsers().getBody());
     }
 }
