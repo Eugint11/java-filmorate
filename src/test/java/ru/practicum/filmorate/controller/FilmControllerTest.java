@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class FilmControllerTest {
     FilmController filmController;
     Gson gson;
+
     @BeforeEach
     void setUp() {
         filmController = new FilmController();

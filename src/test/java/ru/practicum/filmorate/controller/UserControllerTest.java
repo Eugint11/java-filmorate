@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class UserControllerTest {
     static UserController userController;
     Gson gson;
+
     @BeforeEach
     void setUp() {
         userController = new UserController();
