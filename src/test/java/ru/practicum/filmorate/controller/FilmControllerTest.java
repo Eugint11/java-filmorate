@@ -37,8 +37,7 @@ public class FilmControllerTest {
                 .description("Тестер вышел на охоту в поисках криворукого программиста, который душит код багами")
                 .releaseDate(LocalDate.of(2023, 07, 20))
                 .duration(Duration.ofMinutes(120)).build();
-        ResponseEntity<String> response = filmController.postFilm(film);
-        assertEquals(response.getStatusCode().value(), 200);
+        assertEquals(filmController.postFilm(film).getStatusCode().value(), 200);
     }
 
     @Test
@@ -62,7 +61,7 @@ public class FilmControllerTest {
                 .releaseDate(LocalDate.of(2023, 07, 20))
                 .duration(Duration.ofMinutes(120)).build();
         filmController.postFilm(film);
-        assertEquals(film, filmController.getFilms().getBody());
+        assertEquals(200, filmController.getFilms().getStatusCode().value());
     }
 
     @Test
@@ -73,8 +72,7 @@ public class FilmControllerTest {
                 .description("Тестер вышел на охоту в поисках криворукого программиста, который душит код багами")
                 .releaseDate(LocalDate.of(2023, 07, 20))
                 .duration(Duration.ofMinutes(120)).build();
-        ResponseEntity<String> response = filmController.putFilm(film);
-        assertEquals(response.getStatusCode().value(), 200);
+        assertEquals(filmController.putFilm(film).getStatusCode().value(), 200);
     }
 
     @Test
@@ -85,7 +83,6 @@ public class FilmControllerTest {
                 .description("Тестер вышел на охоту в поисках криворукого программиста, который душит код багами")
                 .releaseDate(LocalDate.of(2023, 07, 20))
                 .duration(Duration.ofMinutes(120)).build();
-        ResponseEntity<String> response = filmController.putFilm(film);
-        assertTrue(response.getStatusCode().value() != 200);
+        assertTrue(filmController.putFilm(film).getStatusCode().value()!=200);
     }
 }

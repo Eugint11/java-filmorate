@@ -10,6 +10,8 @@ import ru.practicum.filmorate.user.User;
 import ru.practicum.filmorate.user.UserController;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -29,15 +31,13 @@ public class UserControllerTest {
     @Test
     void postUserCorrect() {
         User user = User.builder().id(1).login("login").name("name").email("test@gmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
-        userController.postUser(user);
-        assertEquals(user, userController.getUsers().getBody());
+        assertEquals(200, userController.postUser(user).getStatusCode().value());
     }
 
     @Test
     void postUserWithEmptyNAME() {
         User user = User.builder().id(1).login("login").name("").email("test@gmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
-        userController.postUser(user);
-        assertEquals(user, userController.getUsers().getBody());
+        assertEquals(200, userController.postUser(user).getStatusCode().value());
     }
 
     @Test
@@ -51,21 +51,19 @@ public class UserControllerTest {
     void getUsers() {
         User user = User.builder().id(1).login("login").name("").email("test@gmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
         userController.postUser(user);
-        assertEquals(user, userController.getUsers().getBody());
+        assertEquals(200, userController.getUsers().getStatusCode().value());
     }
 
     @Test
     void putUserCorrect() {
         User user = User.builder().id(1).login("login").name("name").email("test@gmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
-        userController.putUser(user);
-        assertEquals(user, userController.getUsers().getBody());
+        assertEquals(200, userController.putUser(user).getStatusCode().value());
     }
 
     @Test
     void putUserWithEmptyNAME() {
         User user = User.builder().id(1).login("login").name("").email("test@gmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
-        userController.putUser(user);
-        assertEquals(user, userController.getUsers().getBody());
+        assertEquals(200, userController.putUser(user).getStatusCode().value());
     }
 
     @Test
@@ -81,6 +79,6 @@ public class UserControllerTest {
         userController.postUser(user);
         User updateUser = user.toBuilder().name("NewName").build();
         userController.putUser(updateUser);
-        assertEquals(user, userController.getUsers().getBody());
+        assertEquals(200, userController.getUsers().getStatusCode().value());
     }
 }

@@ -7,10 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.filmorate.DurationTypeAdapter;
 import ru.practicum.filmorate.LocalDateTypeAdapter;
 import ru.practicum.filmorate.exception.ValidationException;
 
 import javax.validation.Valid;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,7 @@ public class FilmController {
     public ResponseEntity<String> postFilm(@Valid @RequestBody Film film) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+                .registerTypeAdapter(Duration.class, new DurationTypeAdapter())
                 .create();
         try {
             validate(film);
@@ -45,6 +48,7 @@ public class FilmController {
     public ResponseEntity<String> getFilms() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+                .registerTypeAdapter(Duration.class, new DurationTypeAdapter())
                 .create();
         return new ResponseEntity<String>(gson.toJson(films), HttpStatus.OK);
     }
@@ -53,6 +57,7 @@ public class FilmController {
     public ResponseEntity<String> putFilm(@Valid @RequestBody Film film) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+                .registerTypeAdapter(Duration.class, new DurationTypeAdapter())
                 .create();
         try {
             validate(film);
