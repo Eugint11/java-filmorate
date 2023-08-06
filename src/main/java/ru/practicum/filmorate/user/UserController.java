@@ -1,5 +1,6 @@
 package ru.practicum.filmorate.user;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -13,8 +14,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.Gson;
-
 /**
  * TODO Sprint add-controllers.
  */
@@ -23,7 +22,7 @@ import com.google.gson.Gson;
 @RequestMapping(path = "/users")
 public class UserController {
     private List<User> users = new ArrayList<>();
-    private int lastId = 0;
+    private int lastId = 1;
 
     @PostMapping
     public ResponseEntity<String> postUser(@Valid @RequestBody User user) {
@@ -61,7 +60,7 @@ public class UserController {
                     return new ResponseEntity<String>(gson.toJson(user), HttpStatus.OK);
                 }
             }
-            return postUser(user);
+            return new ResponseEntity<String>("", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (ValidationException e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -78,6 +77,6 @@ public class UserController {
     }
 
     public int getLastId() {
-        return ++lastId;
+        return lastId++;
     }
 }

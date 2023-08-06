@@ -21,7 +21,7 @@ import java.util.List;
 @Controller
 @RequestMapping(path = "/films")
 public class FilmController {
-    private int lastId = 0;
+    private int lastId = 1;
     final int maxLengthDescription = 200;
     final LocalDate minDateRelease = LocalDate.of(1895, 12, 28);
     private List<Film> films = new ArrayList<>();
@@ -68,7 +68,7 @@ public class FilmController {
                     return new ResponseEntity<String>(gson.toJson(film), HttpStatus.OK);
                 }
             }
-            return postFilm(film);
+            return new ResponseEntity<String>("", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (ValidationException e) {
             log.error("Возникла ошибка при добавлении фильма. " + e.toString());
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -85,6 +85,6 @@ public class FilmController {
     }
 
     public int getLastId() {
-        return ++lastId;
+        return lastId++;
     }
 }
