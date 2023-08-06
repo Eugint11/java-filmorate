@@ -60,8 +60,10 @@ public class UserControllerTest {
 
     @Test
     void putUserWithEmptyNAME() {
-        User user = User.builder().id(1).login("login").name("").email("test@gmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
-        assertEquals(200, userController.putUser(user).getStatusCode().value());
+        User user = User.builder().id(1).login("login").name("name").email("test@gmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
+        userController.postUser(user);
+        User updateUser = user.toBuilder().name("").build();
+        assertEquals(200, userController.putUser(updateUser).getStatusCode().value());
     }
 
     @Test
