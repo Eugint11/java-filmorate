@@ -83,6 +83,6 @@ public class FilmControllerTest {
                 .description("Тестер вышел на охоту в поисках криворукого программиста, который душит код багами")
                 .releaseDate(LocalDate.of(2023, 07, 20))
                 .duration(Duration.ofMinutes(120)).build();
-        assertTrue(filmController.putFilm(film).getStatusCode().value()!=200);
+        assertTrue(filmController.putFilm(film).getStatusCode().value() != 200);
     }
 }
