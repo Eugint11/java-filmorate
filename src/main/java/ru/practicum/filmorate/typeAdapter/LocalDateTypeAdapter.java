@@ -1,4 +1,4 @@
-package ru.practicum.filmorate;
+package ru.practicum.filmorate.typeAdapter;
 
 import com.google.gson.*;
 

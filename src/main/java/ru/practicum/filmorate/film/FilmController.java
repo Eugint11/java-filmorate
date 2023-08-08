@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.filmorate.DurationTypeAdapter;
-import ru.practicum.filmorate.LocalDateTypeAdapter;
+import ru.practicum.filmorate.typeAdapter.DurationTypeAdapter;
+import ru.practicum.filmorate.typeAdapter.LocalDateTypeAdapter;
 import ru.practicum.filmorate.exception.ValidationException;
 
 import javax.validation.Valid;

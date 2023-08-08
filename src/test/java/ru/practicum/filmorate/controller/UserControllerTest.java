@@ -4,8 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-import ru.practicum.filmorate.LocalDateTypeAdapter;
+import ru.practicum.filmorate.typeAdapter.LocalDateTypeAdapter;
 import ru.practicum.filmorate.user.User;
 import ru.practicum.filmorate.user.UserController;
 
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@SpringBootTest
 public class UserControllerTest {
     static UserController userController;
     Gson gson;
@@ -55,6 +57,10 @@ public class UserControllerTest {
     @Test
     void putUserCorrect() {
         User user = User.builder().id(1).login("login").name("name").email("test@gmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
+        userController.postUser(user);
+        ResponseEntity<String> response = userController.postUser(user);
+        assertEquals(200, response.getStatusCode().value());
+        user = user.toBuilder().name("newName").build();
         assertEquals(200, userController.putUser(user).getStatusCode().value());
     }
 
@@ -71,14 +77,5 @@ public class UserControllerTest {
         User user = User.builder().id(1).login("").name("").email("testgmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
         ResponseEntity<String> response = userController.putUser(user);
         assertTrue(response.getStatusCode().value() != 200);
-    }
-
-    @Test
-    void updateUser() {
-        User user = User.builder().id(1).login("login").name("name").email("test@gmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
-        userController.postUser(user);
-        User updateUser = user.toBuilder().name("NewName").build();
-        userController.putUser(updateUser);
-        assertEquals(200, userController.getUsers().getStatusCode().value());
     }
 }
