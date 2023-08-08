@@ -57,7 +57,8 @@ public class UserController {
             for (User oldUser : users) {
                 if (oldUser.getId() == user.getId()) {
                     System.out.println(user.getName());
-                    users.add(users.indexOf(oldUser), user);
+                    users.add(user);
+                    users.remove(oldUser);
                     return new ResponseEntity<String>(gson.toJson(user), HttpStatus.OK);
                 }
             }

@@ -63,7 +63,8 @@ public class FilmController {
             validate(film);
             for (Film oldFilm : films) {
                 if (oldFilm.getId() == film.getId()) {
-                    films.add(films.indexOf(oldFilm), film);
+                    films.remove(oldFilm);
+                    films.add(film);
                     log.info("Обновлена запись о фильме. Было: " + oldFilm.toString() + ". Стало: " + film.toString());
                     return new ResponseEntity<String>(gson.toJson(film), HttpStatus.OK);
                 }
