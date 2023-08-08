@@ -30,7 +30,7 @@ public class User {
     }
 
     public String getName() {
-        if (name.isBlank()) {
+        if (name == null || name.isBlank()) {
             return login;
         } else {
             return name;

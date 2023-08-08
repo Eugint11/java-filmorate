@@ -31,7 +31,7 @@ public class UserController {
                 .create();
         try {
             validate(user);
-            User newUser = checkName(user).toBuilder().id(getLastId()).build();
+            User newUser = user.toBuilder().id(getLastId()).build();
             users.add(newUser);
             return new ResponseEntity<String>(gson.toJson(newUser), HttpStatus.OK);
         } catch (ValidationException e) {
@@ -56,13 +56,12 @@ public class UserController {
             validate(user);
             for (User oldUser : users) {
                 if (oldUser.getId() == user.getId()) {
-                    User updateUser = checkName(user);
-                    System.out.println(updateUser.getName());
-                    users.add(users.indexOf(oldUser), updateUser);
-                    return new ResponseEntity<String>(gson.toJson(updateUser), HttpStatus.OK);
+                    System.out.println(user.getName());
+                    users.add(users.indexOf(oldUser), user);
+                    return new ResponseEntity<String>(gson.toJson(user), HttpStatus.OK);
                 }
             }
-            return new ResponseEntity<String>("", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (ValidationException e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -76,10 +75,6 @@ public class UserController {
         ) {
             throw new ValidationException("Некорректно заполнена информация о пользователе");
         }
-    }
-
-    private User checkName(User user) {
-        return user.getName().isBlank() ? user.toBuilder().name(user.getLogin()).build() : user;
     }
 
     public int getLastId() {

@@ -10,12 +10,12 @@ public class DurationTypeAdapter implements JsonSerializer<Duration>, JsonDeseri
     @Override
     public JsonElement serialize(final Duration duration, final Type typeOfSrc,
                                  final JsonSerializationContext context) {
-        return new JsonPrimitive(duration.toMinutes());
+        return new JsonPrimitive(duration.toSeconds());
     }
 
     @Override
     public Duration deserialize(final JsonElement json, final Type typeOfT,
                                 final JsonDeserializationContext context) throws JsonParseException {
-        return Duration.ofMinutes(Long.getLong(json.getAsString()));
+        return Duration.ofSeconds(Long.getLong(json.getAsString()));
     }
 }

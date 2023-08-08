@@ -68,7 +68,7 @@ public class FilmController {
                     return new ResponseEntity<String>(gson.toJson(film), HttpStatus.OK);
                 }
             }
-            return new ResponseEntity<String>("", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (ValidationException e) {
             log.error("Возникла ошибка при добавлении фильма. " + e.toString());
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
