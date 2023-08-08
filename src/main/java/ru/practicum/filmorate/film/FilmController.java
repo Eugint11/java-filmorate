@@ -33,7 +33,8 @@ public class FilmController {
                 .registerTypeAdapter(Duration.class, new DurationTypeAdapter())
                 .create();
         try {
-            validate(film);
+            ResponseEntity<String> response = validate(film);
+            if (response != null) return response;
             Film newFilm = film.toBuilder().id(getLastId()).build();
             films.add(newFilm);
             log.info("Добавлена запись о фильме: " + newFilm.toString());
@@ -77,15 +78,17 @@ public class FilmController {
         }
     }
 
-    private void validate(Film film) throws ValidationException {
+    private ResponseEntity<String> validate(Film film) throws ValidationException {
+        Gson gson = new Gson();
         if (film.getName().isBlank())
-            throw new ValidationException("films / Film create Fail name");
+            return new ResponseEntity<String>(gson.toJson("films / Film create Fail name"), HttpStatus.BAD_REQUEST);
         if (film.getDescription().length() > maxLengthDescription)
-            throw new ValidationException("films / Film create Fail description");
+            return new ResponseEntity<String>(gson.toJson("films / Film create Fail description"), HttpStatus.BAD_REQUEST);
         if (film.getReleaseDate().isBefore(minDateRelease))
-            throw new ValidationException("films / Film create Fail releaseDate");
+            return new ResponseEntity<String>(gson.toJson("films / Film create Fail releaseDate"), HttpStatus.BAD_REQUEST);
         if (film.getDuration() < 0)
-            throw new ValidationException("films / Film create Fail duration");
+            return new ResponseEntity<String>(gson.toJson("films / Film create Fail duration"), HttpStatus.BAD_REQUEST);
+        return null;
     }
 
     public int getLastId() {
