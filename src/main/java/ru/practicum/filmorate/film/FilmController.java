@@ -80,7 +80,7 @@ public class FilmController {
         if (film.getName().isBlank()
                 || film.getDescription().length() > maxLengthDescription
                 || film.getReleaseDate().isBefore(minDateRelease)
-                || film.getDuration()<0) {
+                || film.getDuration() < 0) {
             throw new ValidationException("Некорректно заполнена информация о фильме");
         }
     }
