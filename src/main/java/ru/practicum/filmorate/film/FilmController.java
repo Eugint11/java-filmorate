@@ -36,8 +36,8 @@ public class FilmController {
             validate(film);
             Film newFilm = film.toBuilder().id(getLastId()).build();
             films.add(newFilm);
-            log.info("Добавлена запись о фильме: " + film.toString());
-            return new ResponseEntity<String>(gson.toJson(film), HttpStatus.OK);
+            log.info("Добавлена запись о фильме: " + newFilm.toString());
+            return new ResponseEntity<String>(gson.toJson(newFilm), HttpStatus.OK);
         } catch (ValidationException e) {
             log.error("Возникла ошибка при добавлении фильма. " + e.toString());
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);

@@ -61,7 +61,7 @@ public class UserController {
                     return new ResponseEntity<String>(gson.toJson(user), HttpStatus.OK);
                 }
             }
-            return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>("users / User update unknown", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (ValidationException e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
