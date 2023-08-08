@@ -18,7 +18,6 @@ public class User {
     String email;
     @NotNull @NotBlank @Pattern(regexp = "\\S+")
     String login;
-    @NotNull
     String name;
     @PastOrPresent
     LocalDate birthday;

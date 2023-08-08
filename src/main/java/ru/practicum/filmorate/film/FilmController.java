@@ -69,20 +69,23 @@ public class FilmController {
                     return new ResponseEntity<String>(gson.toJson(film), HttpStatus.OK);
                 }
             }
-            return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("Фильм не найден.");
+            return new ResponseEntity<String>(gson.toJson("films / Film update unknown"), HttpStatus.BAD_REQUEST);
         } catch (ValidationException e) {
             log.error("Возникла ошибка при добавлении фильма. " + e.toString());
-            return new ResponseEntity<String>(gson.toJson("films / Film update unknown"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(gson.toJson(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
     private void validate(Film film) throws ValidationException {
-        if (film.getName().isBlank()
-                || film.getDescription().length() > maxLengthDescription
-                || film.getReleaseDate().isBefore(minDateRelease)
-                || film.getDuration() < 0) {
-            throw new ValidationException("Некорректно заполнена информация о фильме");
-        }
+        if (film.getName().isBlank())
+            throw new ValidationException("films / Film create Fail name");
+        if (film.getDescription().length() > maxLengthDescription)
+            throw new ValidationException("films / Film create Fail description");
+        if (film.getReleaseDate().isBefore(minDateRelease))
+            throw new ValidationException("films / Film create Fail releaseDate");
+        if (film.getDuration() < 0)
+            throw new ValidationException("films / Film create Fail duration");
     }
 
     public int getLastId() {

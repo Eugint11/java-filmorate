@@ -62,6 +62,7 @@ public class UserController {
                     return new ResponseEntity<String>(gson.toJson(user), HttpStatus.OK);
                 }
             }
+            log.error("Пользователь не найден.");
             return new ResponseEntity<String>(gson.toJson("users / User update unknown"), HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (ValidationException e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
