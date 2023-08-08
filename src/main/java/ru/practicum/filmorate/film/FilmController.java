@@ -70,10 +70,10 @@ public class FilmController {
                 }
             }
             log.error("Фильм не найден.");
-            return new ResponseEntity<String>(gson.toJson("films / Film update unknown"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(gson.toJson("films / Film update unknown"), HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (ValidationException e) {
             log.error("Возникла ошибка при добавлении фильма. " + e.toString());
-            return new ResponseEntity<String>(gson.toJson(e.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(gson.toJson(e.getMessage().toString()), HttpStatus.BAD_REQUEST);
         }
     }
 
