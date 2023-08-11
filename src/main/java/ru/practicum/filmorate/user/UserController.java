@@ -25,7 +25,7 @@ public class UserController {
     private int lastId = 1;
 
     @PostMapping
-    public ResponseEntity<String> postUser(@Valid @RequestBody User user) {
+    public ResponseEntity postUser(@Valid @RequestBody User user) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
                 .create();
@@ -33,22 +33,22 @@ public class UserController {
             validate(user);
             User newUser = user.toBuilder().id(getLastId()).name(user.getName()).build();
             users.add(newUser);
-            return new ResponseEntity<String>(gson.toJson(newUser), HttpStatus.OK);
+            return new ResponseEntity(gson.toJson(newUser), HttpStatus.OK);
         } catch (ValidationException e) {
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping
-    public ResponseEntity<String> getUsers() {
+    public ResponseEntity getUsers() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
                 .create();
-        return new ResponseEntity<String>(gson.toJson(users), HttpStatus.OK);
+        return new ResponseEntity(gson.toJson(users), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<String> putUser(@Valid @RequestBody User user) {
+    public ResponseEntity putUser(@Valid @RequestBody User user) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
                 .create();
@@ -59,19 +59,20 @@ public class UserController {
                 if (oldUser.getId() == updateUser.getId()) {
                     users.add(updateUser);
                     users.remove(oldUser);
-                    return new ResponseEntity<String>(gson.toJson(updateUser), HttpStatus.OK);
+                    return new ResponseEntity(gson.toJson(updateUser), HttpStatus.OK);
                 }
             }
             log.error("Пользователь не найден.");
-            return new ResponseEntity<String>(gson.toJson("users / User update unknown"), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(gson.toJson("users / User update unknown"), HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (ValidationException e) {
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     private void validate(User user) throws ValidationException {
         if (
-                !user.getEmail().contains("@")
+                user.getName() == null
+                        || !user.getEmail().contains("@")
                         || user.getLogin().isBlank()
                         || user.getBirthday().isAfter(LocalDate.now())
         ) {

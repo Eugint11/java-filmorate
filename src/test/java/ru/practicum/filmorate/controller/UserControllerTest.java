@@ -42,21 +42,38 @@ public class UserControllerTest {
 
     @Test
     void postUserWithIncorrect() {
-        User user = User.builder().id(1).login("").name("").email("testgmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
+        User user = User.builder()
+                .id(1)
+                .login("")
+                .name("")
+                .email("testgmail.com")
+                .birthday(LocalDate.of(1996, 06, 11))
+                .build();
         ResponseEntity<String> response = userController.postUser(user);
         assertTrue(response.getStatusCode().value() != 200);
     }
 
     @Test
     void getUsers() {
-        User user = User.builder().id(1).login("login").name("").email("test@gmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
+        User user = User.builder()
+                .id(1)
+                .login("login")
+                .name("")
+                .email("test@gmail.com")
+                .birthday(LocalDate.of(1996, 06, 11))
+                .build();
         userController.postUser(user);
         assertEquals(200, userController.getUsers().getStatusCode().value());
     }
 
     @Test
     void putUserCorrect() {
-        User user = User.builder().id(1).login("login").name("name").email("test@gmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
+        User user = User.builder()
+                .id(1).login("login")
+                .name("name")
+                .email("test@gmail.com")
+                .birthday(LocalDate.of(1996, 06, 11))
+                .build();
         userController.postUser(user);
         ResponseEntity<String> response = userController.postUser(user);
         assertEquals(200, response.getStatusCode().value());
@@ -66,7 +83,12 @@ public class UserControllerTest {
 
     @Test
     void putUserWithEmptyNAME() {
-        User user = User.builder().id(1).login("login").name("name").email("test@gmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
+        User user = User.builder()
+                .id(1).login("login")
+                .name("name")
+                .email("test@gmail.com")
+                .birthday(LocalDate.of(1996, 06, 11))
+                .build();
         userController.postUser(user);
         User updateUser = user.toBuilder().name("").build();
         assertEquals(200, userController.putUser(updateUser).getStatusCode().value());
@@ -74,7 +96,13 @@ public class UserControllerTest {
 
     @Test
     void putUserWithIncorrect() {
-        User user = User.builder().id(1).login("").name("").email("testgmail.com").birthday(LocalDate.of(1996, 06, 11)).build();
+        User user = User.builder()
+                .id(1)
+                .login("")
+                .name("")
+                .email("testgmail.com")
+                .birthday(LocalDate.of(1996, 06, 11))
+                .build();
         ResponseEntity<String> response = userController.putUser(user);
         assertTrue(response.getStatusCode().value() != 200);
     }

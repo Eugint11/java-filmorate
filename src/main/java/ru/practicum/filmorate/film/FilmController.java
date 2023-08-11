@@ -25,33 +25,33 @@ public class FilmController {
     private List<Film> films = new ArrayList<>();
 
     @PostMapping
-    public ResponseEntity<String> postFilm(@Valid @RequestBody Film film) {
+    public ResponseEntity postFilm(@Valid @RequestBody Film film) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
                 .create();
         try {
-            ResponseEntity<String> response = validate(film);
+            ResponseEntity response = validate(film);
             if (response != null) return response;
             Film newFilm = film.toBuilder().id(getLastId()).build();
             films.add(newFilm);
             log.info("Добавлена запись о фильме: " + newFilm.toString());
-            return new ResponseEntity<String>(gson.toJson(newFilm), HttpStatus.OK);
+            return new ResponseEntity(gson.toJson(newFilm), HttpStatus.OK);
         } catch (ValidationException e) {
             log.error("Возникла ошибка при добавлении фильма. " + e.toString());
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping
-    public ResponseEntity<String> getFilms() {
+    public ResponseEntity getFilms() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
                 .create();
-        return new ResponseEntity<String>(gson.toJson(films), HttpStatus.OK);
+        return new ResponseEntity(gson.toJson(films), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<String> putFilm(@Valid @RequestBody Film film) {
+    public ResponseEntity putFilm(@Valid @RequestBody Film film) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
                 .create();
@@ -62,27 +62,27 @@ public class FilmController {
                     films.remove(oldFilm);
                     films.add(film);
                     log.info("Обновлена запись о фильме. Было: " + oldFilm.toString() + ". Стало: " + film.toString());
-                    return new ResponseEntity<String>(gson.toJson(film), HttpStatus.OK);
+                    return new ResponseEntity(gson.toJson(film), HttpStatus.OK);
                 }
             }
             log.error("Фильм не найден.");
-            return new ResponseEntity<String>(gson.toJson("films / Film update unknown"), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(gson.toJson("films / Film update unknown"), HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (ValidationException e) {
             log.error("Возникла ошибка при добавлении фильма. " + e.toString());
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    private ResponseEntity<String> validate(Film film) throws ValidationException {
+    private ResponseEntity validate(Film film) throws ValidationException {
         Gson gson = new Gson();
         if (film.getName().isBlank())
-            return new ResponseEntity<String>(gson.toJson("films / Film create Fail name"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(gson.toJson("films / Film create Fail name"), HttpStatus.BAD_REQUEST);
         if (film.getDescription().length() > maxLengthDescription)
-            return new ResponseEntity<String>(gson.toJson("films / Film create Fail description"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(gson.toJson("films / Film create Fail description"), HttpStatus.BAD_REQUEST);
         if (film.getReleaseDate().isBefore(minDateRelease))
-            return new ResponseEntity<String>(gson.toJson("films / Film create Fail releaseDate"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(gson.toJson("films / Film create Fail releaseDate"), HttpStatus.BAD_REQUEST);
         if (film.getDuration() < 0)
-            return new ResponseEntity<String>(gson.toJson("films / Film create Fail duration"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(gson.toJson("films / Film create Fail duration"), HttpStatus.BAD_REQUEST);
         return null;
     }
 
