@@ -1,9 +1,5 @@
 package ru.practicum.filmorate.user;
 
-/**
- * TODO Sprint add-controllers.
- */
-
 import lombok.Builder;
 import lombok.Value;
 
@@ -13,7 +9,7 @@ import java.time.LocalDate;
 @Builder(toBuilder = true)
 @Value
 public class User {
-    int id;
+    Integer id;
     @NotNull @NotBlank @Email
     String email;
     @NotNull @NotBlank @Pattern(regexp = "\\S+")

@@ -20,8 +20,8 @@ import java.util.List;
 @RequestMapping(path = "/films")
 public class FilmController {
     private int lastId = 1;
-    final int maxLengthDescription = 200;
-    final LocalDate minDateRelease = LocalDate.of(1895, 12, 28);
+    private final int maxLengthDescription = 200;
+    private final LocalDate minDateRelease = LocalDate.of(1895, 12, 28);
     private List<Film> films = new ArrayList<>();
 
     @PostMapping

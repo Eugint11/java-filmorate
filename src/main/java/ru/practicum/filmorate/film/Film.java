@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Builder(toBuilder = true)
 @Value
 public class Film {
-    int id;
+    Integer id;
     @NotNull @NotBlank
     String name;
     @Size(max = 200)
@@ -20,5 +20,5 @@ public class Film {
     @NotNull
     LocalDate releaseDate;
     @NotNull @Positive
-    int duration;
+    Integer duration;
 }
